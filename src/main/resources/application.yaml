@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: "recipe-it"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/recipe
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  flyway:
+    enable: true
+
+
+
+
+
