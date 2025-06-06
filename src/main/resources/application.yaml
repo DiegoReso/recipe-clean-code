@@ -1,7 +1,7 @@
 spring:
   application:
     name: "recipe-it"
-
+ 
   datasource:
     url: jdbc:postgresql://localhost:5432/recipe
     username: postgres
