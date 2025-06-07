@@ -1,9 +1,9 @@
 spring:
   application:
-    name: "recipe-it"
+    name: "RecipeIt"
  
   datasource:
-    url: jdbc:postgresql://localhost:5432/recipe
+    url: jdbc:postgresql://localhost:5431/RecipeIt
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
