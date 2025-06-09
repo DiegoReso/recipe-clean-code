@@ -1,6 +1,7 @@
 package dev.reso.recipeit.core.entities;
 
-import java.time.LocalDate;
+import dev.reso.recipeit.core.enums.TypeRecipe;
+
 import java.time.LocalDateTime;
 
 public class Recipe {
@@ -13,5 +14,5 @@ public class Recipe {
     private double servings;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
+    private TypeRecipe type;
 }
