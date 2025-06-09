@@ -4,11 +4,11 @@ import dev.reso.recipeit.core.entities.Recipe;
 import dev.reso.recipeit.core.gateway.RecipeGateway;
 
 
-public class CreatesRecipeImpl implements CreatesRecipeCase {
+public class CreatesRecipeUseCaseImpl implements CreatesRecipeUseCase {
 
     private final RecipeGateway recipeGateway;
 
-    public CreatesRecipeImpl(RecipeGateway recipeGateway) {
+    public CreatesRecipeUseCaseImpl(RecipeGateway recipeGateway) {
         this.recipeGateway = recipeGateway;
     }
 
