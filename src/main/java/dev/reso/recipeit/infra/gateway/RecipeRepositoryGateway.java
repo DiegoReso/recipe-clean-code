@@ -8,6 +8,8 @@ import dev.reso.recipeit.infra.persistence.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 @Component
 @RequiredArgsConstructor
@@ -21,5 +23,11 @@ public class RecipeRepositoryGateway implements RecipeGateway {
         RecipeEntity entity = mapper.toRecipeEntity(recipe);
         RecipeEntity newEntity = repository.save(entity);
         return mapper.recipeEntityToRecipe(newEntity);
+    }
+
+    @Override
+    public List<Recipe> findRecipes() {
+        List<RecipeEntity> listRecipe = repository.findAll();
+        return listRecipe.stream().map(mapper::recipeEntityToRecipe).toList();
     }
 }
