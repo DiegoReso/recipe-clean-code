@@ -10,4 +10,6 @@ public interface RecipeGateway {
 
     List<Recipe> findRecipes();
 
+    boolean existsRecipeIdentification(String identification);
+
 }
