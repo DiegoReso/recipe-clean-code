@@ -30,4 +30,11 @@ public class RecipeRepositoryGateway implements RecipeGateway {
         List<RecipeEntity> listRecipe = repository.findAll();
         return listRecipe.stream().map(mapper::recipeEntityToRecipe).toList();
     }
+
+    @Override
+    public boolean existsRecipeIdentification(String identification) {
+        return repository.findAll()
+                .stream()
+                .anyMatch(recipe -> recipe.getIdentification().equalsIgnoreCase(identification));
+    }
 }
