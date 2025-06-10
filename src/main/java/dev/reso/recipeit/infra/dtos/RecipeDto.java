@@ -8,6 +8,7 @@ public record RecipeDto(
         Long id,
         String name,
         String description,
+        String identification,
         String instruction,
         double preparationTimeMinutes,
         double servings,

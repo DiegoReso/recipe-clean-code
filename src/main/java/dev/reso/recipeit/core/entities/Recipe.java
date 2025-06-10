@@ -9,6 +9,7 @@ public class Recipe {
     private Long id;
     private String name;
     private String description;
+    private String identification;
     private String instruction;
     private double preparationTimeMinutes;
     private double servings;
@@ -19,16 +20,25 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(Long id, String name, String description, String instruction, double preparationTimeMinutes, double servings, LocalDateTime createdAt, LocalDateTime updatedAt, TypeRecipe type) {
+    public Recipe(Long id, String name, String description, String identification, String instruction, double servings, double preparationTimeMinutes, LocalDateTime createdAt, LocalDateTime updatedAt, TypeRecipe type) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.identification = identification;
         this.instruction = instruction;
         this.preparationTimeMinutes = preparationTimeMinutes;
         this.servings = servings;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.type = type;
+    }
+
+    public String getIdentification() {
+        return identification;
+    }
+
+    public void setIdentification(String identification) {
+        this.identification = identification;
     }
 
     public Long getId() {

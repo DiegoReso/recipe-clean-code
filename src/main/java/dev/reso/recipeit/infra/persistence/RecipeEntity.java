@@ -24,6 +24,10 @@ public class RecipeEntity {
     @Column(nullable = false)
     private String name;
     private String description;
+
+    @Column(nullable = false, length = 5)
+    private String identification;
+
     private String instruction;
     private double preparationTimeMinutes;
     private double servings;
