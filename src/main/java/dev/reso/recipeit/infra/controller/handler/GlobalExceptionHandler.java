@@ -1,7 +1,6 @@
 package dev.reso.recipeit.infra.controller.handler;
 
 import dev.reso.recipeit.core.exceptions.DuplicateRecipeKeyException;
-import dev.reso.recipeit.core.exceptions.StandardError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +16,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<StandardError> handleRecipeAlreadyExistsException(DuplicateRecipeKeyException ex, HttpServletRequest request) {
         StandardError err = new StandardError();
         err.setTimestamp(Instant.now());
-        err.setStatus(HttpStatus.BAD_REQUEST.value());
+        err.setStatus(HttpStatus.CONFLICT.value());
         err.setError("duplicate key");
         err.setMessage(ex.getMessage());
         err.setPath(request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 }
