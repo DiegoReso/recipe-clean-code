@@ -1,0 +1,2 @@
+ALTER TABLE recipe
+    ADD COLUMN identification VARCHAR(5) NOT NULL UNIQUE;
