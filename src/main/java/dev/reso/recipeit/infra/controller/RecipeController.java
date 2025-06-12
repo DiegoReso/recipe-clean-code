@@ -53,11 +53,8 @@ public class RecipeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deleteRecipe(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
         deleteRecipeUseCase.execute(id);
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("message", "Recipe deleted successfully");
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 }
