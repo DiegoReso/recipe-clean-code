@@ -37,4 +37,10 @@ public class RecipeRepositoryGateway implements RecipeGateway {
                 .stream()
                 .anyMatch(recipe -> recipe.getIdentification().equalsIgnoreCase(identification));
     }
+
+    @Override
+    public Recipe findRecipeByIdentification(String identification) {
+       RecipeEntity entity = repository.findByIdentification(identification);
+       return mapper.recipeEntityToRecipe(entity);
+    }
 }
