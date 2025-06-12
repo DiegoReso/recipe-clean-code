@@ -27,4 +27,9 @@ public class BeanConfiguration {
     public FindRecipeByIdUseCase findRecipeByIdUseCase(RecipeGateway recipeGateway) {
         return new FindRecipeByIdUseCaseImpl(recipeGateway);
     }
+
+    @Bean
+    public DeleteRecipeUseCase deleteRecipeUseCase(RecipeGateway recipeGateway) {
+        return new DeleteRecipeUseCaseImpl(recipeGateway);
+    }
 }
