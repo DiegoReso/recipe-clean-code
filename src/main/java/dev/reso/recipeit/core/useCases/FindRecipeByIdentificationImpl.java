@@ -23,7 +23,7 @@ public class FindRecipeByIdentificationImpl implements FindRecipeByIdentificatio
                 throw new ResourceNotFoundException("Recipe with identification '" + identification + "' not found");
             }
 
-            return recipeGateway.findRecipeById(identification);
+            return recipeGateway.findRecipeByIdentification(identification);
         } catch (IllegalArgumentException e) {
             throw new ResourceNotFoundException("Invalid identification provided: " + identification);
         }catch (EntityNotFoundException e){
