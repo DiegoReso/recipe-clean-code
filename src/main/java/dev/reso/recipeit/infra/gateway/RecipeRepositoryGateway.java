@@ -58,4 +58,9 @@ public class RecipeRepositoryGateway implements RecipeGateway {
                 .stream()
                 .anyMatch(recipe -> recipe.getId().equals(id));
     }
+
+    @Override
+    public void deleteRecipe(Long id) {
+        repository.deleteById(id);
+    }
 }
