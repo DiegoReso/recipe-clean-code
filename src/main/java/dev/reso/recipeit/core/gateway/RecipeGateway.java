@@ -12,4 +12,6 @@ public interface RecipeGateway {
 
     boolean existsRecipeIdentification(String identification);
 
+    Recipe findRecipeByIdentification(String identification);
+
 }
