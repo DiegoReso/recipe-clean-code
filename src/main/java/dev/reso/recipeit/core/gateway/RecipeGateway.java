@@ -17,4 +17,6 @@ public interface RecipeGateway {
     Recipe findRecipeById(Long id);
 
     boolean existsRecipeId(Long id);
+
+    void deleteRecipe(Long id);
 }
