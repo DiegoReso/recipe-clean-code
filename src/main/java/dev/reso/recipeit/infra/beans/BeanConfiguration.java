@@ -22,4 +22,9 @@ public class BeanConfiguration {
     public FindRecipeByIdentification findRecipeByIdentification(RecipeGateway recipeGateway) {
         return new FindRecipeByIdentificationImpl(recipeGateway);
     }
+
+    @Bean
+    public FindRecipeByIdUseCase findRecipeByIdUseCase(RecipeGateway recipeGateway) {
+        return new FindRecipeByIdUseCaseImpl(recipeGateway);
+    }
 }
