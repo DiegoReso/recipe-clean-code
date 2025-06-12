@@ -1,10 +1,7 @@
 package dev.reso.recipeit.infra.controller;
 
 import dev.reso.recipeit.core.entities.Recipe;
-import dev.reso.recipeit.core.useCases.CreatesRecipeUseCase;
-import dev.reso.recipeit.core.useCases.FindRecipeByIdUseCase;
-import dev.reso.recipeit.core.useCases.FindRecipeByIdentification;
-import dev.reso.recipeit.core.useCases.FindRecipesUseCase;
+import dev.reso.recipeit.core.useCases.*;
 import dev.reso.recipeit.infra.dtos.RecipeDto;
 import dev.reso.recipeit.infra.mapper.RecipeDtoMapper;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +22,7 @@ public class RecipeController {
     private final FindRecipesUseCase findRecipesUseCase;
     private final FindRecipeByIdentification findRecipeByIdentification;
     private final FindRecipeByIdUseCase findRecipeById;
+    private final DeleteRecipeUseCase deleteRecipeUseCase;
     private final RecipeDtoMapper mapper;
 
 
@@ -53,4 +51,13 @@ public class RecipeController {
         Recipe recipe = findRecipeById.execute(id);
         return ResponseEntity.ok(mapper.toRecipeDto(recipe));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> deleteRecipe(@PathVariable Long id) {
+        deleteRecipeUseCase.execute(id);
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("message", "Recipe deleted successfully");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+    }
+
 }
