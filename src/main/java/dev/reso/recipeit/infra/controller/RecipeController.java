@@ -2,6 +2,7 @@ package dev.reso.recipeit.infra.controller;
 
 import dev.reso.recipeit.core.entities.Recipe;
 import dev.reso.recipeit.core.useCases.CreatesRecipeUseCase;
+import dev.reso.recipeit.core.useCases.FindRecipeByIdUseCase;
 import dev.reso.recipeit.core.useCases.FindRecipeByIdentification;
 import dev.reso.recipeit.core.useCases.FindRecipesUseCase;
 import dev.reso.recipeit.infra.dtos.RecipeDto;
@@ -23,6 +24,7 @@ public class RecipeController {
     private final CreatesRecipeUseCase createsRecipeCase;
     private final FindRecipesUseCase findRecipesUseCase;
     private final FindRecipeByIdentification findRecipeByIdentification;
+    private final FindRecipeByIdUseCase findRecipeById;
     private final RecipeDtoMapper mapper;
 
 
@@ -43,6 +45,12 @@ public class RecipeController {
     @GetMapping("/{identification}")
     public ResponseEntity<RecipeDto> findRecipeByIdentification(@PathVariable String identification) {
         Recipe recipe = findRecipeByIdentification.execute(identification);
+        return ResponseEntity.ok(mapper.toRecipeDto(recipe));
+    }
+
+    @GetMapping("/search/{id}")
+    public ResponseEntity<RecipeDto> findRecipeById(@PathVariable Long id) {
+        Recipe recipe = findRecipeById.execute(id);
         return ResponseEntity.ok(mapper.toRecipeDto(recipe));
     }
 }
