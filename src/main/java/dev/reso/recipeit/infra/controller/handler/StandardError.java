@@ -1,9 +1,8 @@
-package dev.reso.recipeit.core.exceptions;
+package dev.reso.recipeit.infra.controller.handler;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
