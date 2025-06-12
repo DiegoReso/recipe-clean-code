@@ -2,6 +2,7 @@ package dev.reso.recipeit.infra.controller;
 
 import dev.reso.recipeit.core.entities.Recipe;
 import dev.reso.recipeit.core.useCases.CreatesRecipeUseCase;
+import dev.reso.recipeit.core.useCases.FindRecipeByIdentification;
 import dev.reso.recipeit.core.useCases.FindRecipesUseCase;
 import dev.reso.recipeit.infra.dtos.RecipeDto;
 import dev.reso.recipeit.infra.mapper.RecipeDtoMapper;
@@ -21,6 +22,7 @@ public class RecipeController {
 
     private final CreatesRecipeUseCase createsRecipeCase;
     private final FindRecipesUseCase findRecipesUseCase;
+    private final FindRecipeByIdentification findRecipeByIdentification;
     private final RecipeDtoMapper mapper;
 
 
@@ -38,4 +40,9 @@ public class RecipeController {
         return findRecipesUseCase.excute().stream().map(mapper::toRecipeDto).toList();
     }
 
+    @GetMapping("/{identification}")
+    public ResponseEntity<RecipeDto> findRecipeByIdentification(@PathVariable String identification) {
+        Recipe recipe = findRecipeByIdentification.execute(identification);
+        return ResponseEntity.ok(mapper.toRecipeDto(recipe));
+    }
 }
