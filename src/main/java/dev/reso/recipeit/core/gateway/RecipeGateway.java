@@ -14,4 +14,7 @@ public interface RecipeGateway {
 
     Recipe findRecipeByIdentification(String identification);
 
+    Recipe findRecipeById(Long id);
+
+    boolean existsRecipeId(Long id);
 }
