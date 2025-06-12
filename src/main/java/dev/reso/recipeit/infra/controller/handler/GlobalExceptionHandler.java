@@ -1,5 +1,6 @@
 package dev.reso.recipeit.infra.controller.handler;
 
+import dev.reso.recipeit.infra.persistence.DataBaseException;
 import dev.reso.recipeit.core.exceptions.DuplicateRecipeKeyException;
 import dev.reso.recipeit.core.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,4 +35,16 @@ public class GlobalExceptionHandler {
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
+
+    @ExceptionHandler(DataBaseException.class)
+    public ResponseEntity<StandardError> handleDataBaseException(DataBaseException ex, HttpServletRequest request) {
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.BAD_REQUEST.value());
+        err.setError("database error");
+        err.setMessage(ex.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
 }
