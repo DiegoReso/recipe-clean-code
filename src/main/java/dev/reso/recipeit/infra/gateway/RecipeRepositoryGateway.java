@@ -63,4 +63,11 @@ public class RecipeRepositoryGateway implements RecipeGateway {
     public void deleteRecipe(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public Recipe updateRecipe(Recipe recipe, Long id) {
+        RecipeEntity entity = mapper.toRecipeEntity(recipe);
+        entity.setId(id);
+        return mapper.recipeEntityToRecipe(repository.save(entity));
+    }
 }
