@@ -32,4 +32,9 @@ public class BeanConfiguration {
     public DeleteRecipeUseCase deleteRecipeUseCase(RecipeGateway recipeGateway) {
         return new DeleteRecipeUseCaseImpl(recipeGateway);
     }
+
+    @Bean
+    public UpdateRecipeUseCase updateRecipeUseCase(RecipeGateway recipeGateway){
+        return new UpdateRecipeUseCaseImpl(recipeGateway);
+    }
 }
