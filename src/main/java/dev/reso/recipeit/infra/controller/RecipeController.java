@@ -23,6 +23,7 @@ public class RecipeController {
     private final FindRecipeByIdentification findRecipeByIdentification;
     private final FindRecipeByIdUseCase findRecipeById;
     private final DeleteRecipeUseCase deleteRecipeUseCase;
+    private final UpdateRecipeUseCase updateRecipeUseCase;
     private final RecipeDtoMapper mapper;
 
 
@@ -57,4 +58,14 @@ public class RecipeController {
         deleteRecipeUseCase.execute(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> updateRecipe(@RequestBody RecipeDto recipeDto, @PathVariable Long id){
+        Recipe recipe = updateRecipeUseCase.execute(mapper.toRecipe(recipeDto),id);
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("message: ", "Recipe updated successfully");
+        response.put("data: ", mapper.toRecipeDto(recipe));
+        return ResponseEntity.ok(response);
+    }
+
 }
