@@ -17,11 +17,11 @@ public interface RecipeGateway {
 
     Recipe findRecipeByIdentification(String identification)throws ResourceNotFoundException;
 
-    Recipe findRecipeById(Long id);
+    Recipe findRecipeById(Long id) throws ResourceNotFoundException;
 
     boolean existsRecipeId(Long id);
 
     void deleteRecipe(Long id) throws ResourceNotFoundException, RecipeHasRelatedDataException;
 
-    Recipe updateRecipe(Recipe recipe, Long id);
+    Recipe updateRecipe(Recipe recipe, Long id) throws ResourceNotFoundException, DuplicateRecipeKeyException;
 }
