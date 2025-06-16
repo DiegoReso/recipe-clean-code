@@ -1,11 +1,8 @@
 package dev.reso.recipeit.core.useCases;
 
 import dev.reso.recipeit.core.exceptions.RecipeHasRelatedDataException;
-import dev.reso.recipeit.infra.persistence.DataBaseException;
 import dev.reso.recipeit.core.exceptions.ResourceNotFoundException;
 import dev.reso.recipeit.core.gateway.RecipeGateway;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 
 public class DeleteRecipeUseCaseImpl implements DeleteRecipeUseCase{
 
