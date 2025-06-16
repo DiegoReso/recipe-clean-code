@@ -10,7 +10,6 @@ import dev.reso.recipeit.infra.persistence.RecipeEntity;
 import dev.reso.recipeit.infra.persistence.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -52,8 +51,9 @@ public class RecipeRepositoryGateway implements RecipeGateway {
 
     @Override
     public Recipe findRecipeByIdentification(String identification) {
-       RecipeEntity entity = repository.findByIdentification(identification);
-       return mapper.recipeEntityToRecipe(entity);
+        RecipeEntity recipeEntity = repository.findByIdentification(identification)
+                .orElseThrow(() -> new ResourceNotFoundException("Recipe with identification '" + identification + "' not found."));
+       return mapper.recipeEntityToRecipe(recipeEntity);
     }
 
     @Override
