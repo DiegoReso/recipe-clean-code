@@ -1,9 +1,9 @@
 package dev.reso.recipeit.core.useCases;
 
 import dev.reso.recipeit.core.entities.Recipe;
+import dev.reso.recipeit.core.exceptions.InvalidArgumentException;
 import dev.reso.recipeit.core.exceptions.ResourceNotFoundException;
 import dev.reso.recipeit.core.gateway.RecipeGateway;
-import jakarta.persistence.EntityNotFoundException;
 
 public class FindRecipeByIdentificationImpl implements FindRecipeByIdentification {
 
@@ -14,23 +14,12 @@ public class FindRecipeByIdentificationImpl implements FindRecipeByIdentificatio
     }
 
     @Override
-    public Recipe execute(String identification) {
-        try{
-            if(identification == null || identification.isBlank()){
-                throw new ResourceNotFoundException("Identification cannot be null or empty");
-            }
-            if(!recipeGateway.existsRecipeIdentification(identification)){
-                throw new ResourceNotFoundException("Recipe with identification '" + identification + "' not found");
-            }
+    public Recipe execute(String identification) throws ResourceNotFoundException, InvalidArgumentException {
 
-            return recipeGateway.findRecipeByIdentification(identification);
-        } catch (IllegalArgumentException e) {
-            throw new ResourceNotFoundException("Invalid identification provided: " + identification);
-        }catch (EntityNotFoundException e){
-            throw new ResourceNotFoundException("Recipe with identification '" + identification + "' not found");
-        } catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred while finding the recipe", e);
+        if(identification == null || identification.isBlank()){
+            throw new InvalidArgumentException("Identification cannot be null or empty.");
         }
 
+        return recipeGateway.findRecipeByIdentification(identification);
     }
 }
