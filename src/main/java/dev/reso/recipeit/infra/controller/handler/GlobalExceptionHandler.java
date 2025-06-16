@@ -1,5 +1,6 @@
 package dev.reso.recipeit.infra.controller.handler;
 
+import dev.reso.recipeit.core.exceptions.InvalidArgumentException;
 import dev.reso.recipeit.core.exceptions.RecipeHasRelatedDataException;
 import dev.reso.recipeit.infra.persistence.DataBaseException;
 import dev.reso.recipeit.core.exceptions.DuplicateRecipeKeyException;
@@ -48,6 +49,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 
+    @ExceptionHandler(InvalidArgumentException.class)
+    public ResponseEntity<StandardError> handleInvalidArgumentException(InvalidArgumentException ex, HttpServletRequest request) {
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.BAD_REQUEST.value());
+        err.setError("Invalid argument");
+        err.setMessage(ex.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
     @ExceptionHandler(DataBaseException.class)
     public ResponseEntity<StandardError> handleDataBaseException(DataBaseException ex, HttpServletRequest request) {
         StandardError err = new StandardError();
@@ -58,5 +70,4 @@ public class GlobalExceptionHandler {
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
-
 }
