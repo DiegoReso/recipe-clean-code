@@ -15,7 +15,7 @@ public interface RecipeGateway {
 
     boolean existsRecipeIdentification(String identification);
 
-    Recipe findRecipeByIdentification(String identification);
+    Recipe findRecipeByIdentification(String identification)throws ResourceNotFoundException;
 
     Recipe findRecipeById(Long id);
 
