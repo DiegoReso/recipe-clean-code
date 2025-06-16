@@ -2,12 +2,15 @@ package dev.reso.recipeit.infra.gateway;
 
 import dev.reso.recipeit.core.entities.Recipe;
 import dev.reso.recipeit.core.exceptions.DuplicateRecipeKeyException;
+import dev.reso.recipeit.core.exceptions.RecipeHasRelatedDataException;
+import dev.reso.recipeit.core.exceptions.ResourceNotFoundException;
 import dev.reso.recipeit.core.gateway.RecipeGateway;
 import dev.reso.recipeit.infra.mapper.RecipeEntityMapper;
 import dev.reso.recipeit.infra.persistence.RecipeEntity;
 import dev.reso.recipeit.infra.persistence.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -67,8 +70,16 @@ public class RecipeRepositoryGateway implements RecipeGateway {
     }
 
     @Override
-    public void deleteRecipe(Long id) {
-        repository.deleteById(id);
+    public void deleteRecipe(Long id) throws ResourceNotFoundException,RecipeHasRelatedDataException {
+
+        if(!existsRecipeId(id)) {
+            throw new ResourceNotFoundException("Recipe with id '" + id + "' not found");
+        }
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new RecipeHasRelatedDataException("Recipe with id '" + id + "' cannot be deleted as it has related data.");
+        }
     }
 
     @Override
