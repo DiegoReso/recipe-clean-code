@@ -1,12 +1,13 @@
 package dev.reso.recipeit.infra.gateway;
 
 import dev.reso.recipeit.core.entities.Recipe;
-import dev.reso.recipeit.core.exceptions.ResourceNotFoundException;
+import dev.reso.recipeit.core.exceptions.DuplicateRecipeKeyException;
 import dev.reso.recipeit.core.gateway.RecipeGateway;
 import dev.reso.recipeit.infra.mapper.RecipeEntityMapper;
 import dev.reso.recipeit.infra.persistence.RecipeEntity;
 import dev.reso.recipeit.infra.persistence.RecipeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,10 +22,16 @@ public class RecipeRepositoryGateway implements RecipeGateway {
     private final RecipeEntityMapper mapper;
 
     @Override
-    public Recipe createsRecipe(Recipe recipe) {
-        RecipeEntity entity = mapper.toRecipeEntity(recipe);
-        RecipeEntity newEntity = repository.save(entity);
-        return mapper.recipeEntityToRecipe(newEntity);
+    public Recipe createsRecipe(Recipe recipe) throws DuplicateRecipeKeyException {
+
+        try{
+            RecipeEntity entity = mapper.toRecipeEntity(recipe);
+            RecipeEntity newEntity = repository.save(entity);
+            return mapper.recipeEntityToRecipe(newEntity);
+        }catch (DataIntegrityViolationException e){
+            throw  new DuplicateRecipeKeyException("The identificacion " + recipe.getIdentification() + " already " +
+                    "exists");
+        }
     }
 
     @Override
