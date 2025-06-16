@@ -1,6 +1,7 @@
 package dev.reso.recipeit.core.useCases;
 
 import dev.reso.recipeit.core.entities.Recipe;
+import dev.reso.recipeit.core.exceptions.InvalidArgumentException;
 import dev.reso.recipeit.core.exceptions.ResourceNotFoundException;
 import dev.reso.recipeit.core.gateway.RecipeGateway;
 
@@ -13,13 +14,13 @@ public class FindRecipeByIdUseCaseImpl implements FindRecipeByIdUseCase {
     }
 
     @Override
-    public Recipe execute(Long id) {
+    public Recipe execute(Long id) throws InvalidArgumentException, ResourceNotFoundException {
 
         if (id == null) {
-            throw new ResourceNotFoundException("ID cannot be null");
+            throw new InvalidArgumentException("Recipe ID cannot be null.");
         }
-        if (!recipeGateway.existsRecipeId(id) || id < 0) {
-            throw new ResourceNotFoundException("Recipe with ID '" + id + "' not found");
+        if (id <= 0) {
+            throw new InvalidArgumentException("Recipe ID must be a positive value. Received: " + id);
         }
 
         return recipeGateway.findRecipeById(id);
