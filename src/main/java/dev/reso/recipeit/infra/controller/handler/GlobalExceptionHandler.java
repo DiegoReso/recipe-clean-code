@@ -1,5 +1,6 @@
 package dev.reso.recipeit.infra.controller.handler;
 
+import dev.reso.recipeit.core.exceptions.RecipeHasRelatedDataException;
 import dev.reso.recipeit.infra.persistence.DataBaseException;
 import dev.reso.recipeit.core.exceptions.DuplicateRecipeKeyException;
 import dev.reso.recipeit.core.exceptions.ResourceNotFoundException;
@@ -34,6 +35,17 @@ public class GlobalExceptionHandler {
         err.setMessage(ex.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+    }
+
+    @ExceptionHandler(RecipeHasRelatedDataException.class)
+    public ResponseEntity<StandardError> handleRecipeHasRelatedDataException(RecipeHasRelatedDataException ex, HttpServletRequest request) {
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.CONFLICT.value());
+        err.setError("conflict error");
+        err.setMessage(ex.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 
     @ExceptionHandler(DataBaseException.class)
