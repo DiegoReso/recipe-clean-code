@@ -2,6 +2,8 @@ package dev.reso.recipeit.core.gateway;
 
 import dev.reso.recipeit.core.entities.Recipe;
 import dev.reso.recipeit.core.exceptions.DuplicateRecipeKeyException;
+import dev.reso.recipeit.core.exceptions.RecipeHasRelatedDataException;
+import dev.reso.recipeit.core.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public interface RecipeGateway {
 
     boolean existsRecipeId(Long id);
 
-    void deleteRecipe(Long id);
+    void deleteRecipe(Long id) throws ResourceNotFoundException, RecipeHasRelatedDataException;
 
     Recipe updateRecipe(Recipe recipe, Long id);
 }
