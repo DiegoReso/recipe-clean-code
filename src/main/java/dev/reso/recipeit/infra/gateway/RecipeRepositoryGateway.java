@@ -2,6 +2,7 @@ package dev.reso.recipeit.infra.gateway;
 
 import dev.reso.recipeit.core.entities.Recipe;
 import dev.reso.recipeit.core.exceptions.DuplicateRecipeKeyException;
+import dev.reso.recipeit.core.exceptions.InvalidArgumentException;
 import dev.reso.recipeit.core.exceptions.RecipeHasRelatedDataException;
 import dev.reso.recipeit.core.exceptions.ResourceNotFoundException;
 import dev.reso.recipeit.core.gateway.RecipeGateway;
@@ -13,7 +14,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Component
@@ -57,9 +57,11 @@ public class RecipeRepositoryGateway implements RecipeGateway {
     }
 
     @Override
-    public Recipe findRecipeById(Long id) {
-        Optional<RecipeEntity> entity = repository.findById(id);
-        return mapper.recipeEntityToRecipe(entity.get());
+    public Recipe findRecipeById(Long id) throws ResourceNotFoundException {
+        RecipeEntity recipeEntity = repository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Recipe with ID '" + id + "' not found."));
+
+        return mapper.recipeEntityToRecipe(recipeEntity);
     }
 
     @Override
@@ -83,9 +85,20 @@ public class RecipeRepositoryGateway implements RecipeGateway {
     }
 
     @Override
-    public Recipe updateRecipe(Recipe recipe, Long id) {
-        RecipeEntity entity = mapper.toRecipeEntity(recipe);
-        entity.setId(id);
-        return mapper.recipeEntityToRecipe(repository.save(entity));
+    public Recipe updateRecipe(Recipe recipe, Long id) throws ResourceNotFoundException, DuplicateRecipeKeyException {
+        try {
+            RecipeEntity entity = mapper.toRecipeEntity(recipe);
+            entity.setId(id);
+            RecipeEntity updatedEntity = repository.save(entity);
+            return mapper.recipeEntityToRecipe(updatedEntity);
+        } catch (DataIntegrityViolationException e) {
+            if(e.getMessage().contains("recipe_identification_key"))
+            {
+                throw new DuplicateRecipeKeyException("The identification " + recipe.getIdentification() + " already exists");
+            } else {
+                throw new InvalidArgumentException("Recipe with ID '" + recipe.getIdentification() + "' too long for" +
+                        " indentification");
+            }
+        }
     }
 }
