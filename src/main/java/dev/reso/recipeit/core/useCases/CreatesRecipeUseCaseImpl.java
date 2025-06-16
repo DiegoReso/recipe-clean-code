@@ -14,10 +14,7 @@ public class CreatesRecipeUseCaseImpl implements CreatesRecipeUseCase {
     }
 
     @Override
-    public Recipe execute(Recipe recipe) {
-        if(recipeGateway.existsRecipeIdentification(recipe.getIdentification())){
-            throw new  DuplicateRecipeKeyException("key exists already -> " + recipe.getIdentification());
-        }
+    public Recipe execute(Recipe recipe) throws DuplicateRecipeKeyException {
         return recipeGateway.createsRecipe(recipe);
     }
 }
