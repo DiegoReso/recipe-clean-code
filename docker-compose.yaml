@@ -10,3 +10,17 @@ services:
       - "5431:5432"
     restart: always
 
+  recipe-app:
+    image: image-recipe:0.0.1-SNAPSHOT
+    container_name: RecipeIt-App
+    ports:
+        - "8080:8080"
+    environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/RecipeIt
+        SPRING_DATASOURCE_USERNAME: postgres
+        SPRING_DATASOURCE_PASSWORD: postgres
+
+    depends_on:
+      - postgres
+    restart: on-failure
+
